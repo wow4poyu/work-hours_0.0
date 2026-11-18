@@ -76,8 +76,11 @@ nav .ci{box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 5px 10px -5px var(--shc
 .pri{box-shadow:0 6px 16px -8px var(--ac)}
 .an{padding:10px 0;border-bottom:1px solid var(--line);text-align:left}.an:last-child{border-bottom:0}
 .an.hn{cursor:pointer}.an .ar{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.an .ch{color:var(--mu);font-size:12px;flex-shrink:0}.an .nt{margin-top:8px;padding:10px 12px;border-radius:12px;background:var(--s2);color:var(--mu);font-size:14px;white-space:pre-wrap;line-height:1.6}
+.an .ch{color:var(--ac);font-size:22px;line-height:1;width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:var(--s2);flex-shrink:0}.an .nt{margin-top:8px;padding:10px 12px;border-radius:12px;background:var(--s2);color:var(--mu);font-size:14px;white-space:pre-wrap;line-height:1.6}
 .ann .li:last-child{border-bottom:0}.sep{border:0;border-top:1px solid var(--line);margin:8px 0 4px}
+/* 淺色模式對比度加強 + 手動切換主題（設定頁） */
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--s1:rgba(255,255,255,.78);--mu:#46537a;--line:rgba(60,80,130,.28)}}
+:root[data-theme="light"]{--bg:#eaf0fb;--s1:rgba(255,255,255,.55);--s2:rgba(255,255,255,.7);--line:rgba(70,90,140,.2);--tx:#16203a;--mu:#5d6a8c;--ac:#0a8fd0;--acs:#0a8fd01a;--blue:#cfe9fb;--blueT:#0b3a5e;--dec:#b27a00;--ok:#0f9d62;--bad:#d1384a;--pill:rgba(10,143,208,.14);--snow:100,140,205;--b1:rgba(10,143,208,.25);--b2:rgba(150,110,255,.18);--b3:rgba(10,143,208,.12);--shc:rgba(50,70,120,.3);--s1:rgba(255,255,255,.78);--mu:#46537a;--line:rgba(60,80,130,.28)}
 </style></head><body><div id="app"><h1 id="h"></h1><main id="v"></main>
 <nav><span id="navbg"></span><svg id="navsvg"></svg><span id="pill"></span><button data-t="settings"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg><span>設定</span></button><button data-t="dev"><svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg><span>開發中</span></button><button data-t="home"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>首頁</span></button><button data-t="input"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg><span>輸入</span></button><button data-t="stats"><svg viewBox="0 0 24 24"><path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z"/></svg><span>統計</span></button></nav></div>
 <script src="config.js"></script>
@@ -89,8 +92,8 @@ function seed(){return{carry:0,declared:{},todos:[],active:null,logs:[]}}
 let S;try{S=JSON.parse(localStorage.getItem(K))}catch(e){}S=S||seed();
 const persist=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
 const save=()=>{try{if(S.user&&S.synced&&S.base&&syncDiff())S.dirty=true}catch(e){}persist();if(S.dirty)pushSoon()};
-const nowM=new Date().toISOString().slice(0,7);
-let tab='home',confirm=false,done=false,mode=null,im=nowM,sm=nowM;
+
+let tab='home',confirm=false,done=false,mode=null,im=curM(),sm=curM();
 if(!semMons().includes(sm))sm=semMons()[5];
 const f=n=>String(Math.round(n*100)/100);
 const act=m=>S.logs.filter(l=>l.date.startsWith(m)).reduce((a,l)=>a+l.hours,0);
@@ -112,8 +115,9 @@ function settings(){
  ${impMsg?`<p class="sm" style="margin:8px 0 0">${esc(impMsg)}</p>`:''}
  ${p?`<div style="margin-top:10px;border-top:1px solid var(--line);padding-top:10px"><div class="sm" style="line-height:1.7">檔案：${esc(p.name)}<br>打卡 <b>${p.logs.length}</b> 筆${p.dropped?`（略過 ${p.dropped} 筆舊學期）`:''}${rg.length?`・${FD(rg[0])} ～ ${FD(rg[rg.length-1])}`:''}<br>加保 <b>${Object.keys(p.declared).length}</b> 個月・上期累計 <b>${f(p.carry)}</b> hr</div><div class="row" style="gap:8px;margin-top:8px"><button class="sb ok2" onclick="applyImp('merge')">合併</button><button class="sb bad2" onclick="applyImp('replace')">覆蓋</button><button class="sb" onclick="imp=null;render()">取消</button></div></div>`:''}
  <details style="margin-top:8px"><summary class="sm" style="cursor:pointer">說明</summary><p class="sm" style="margin:6px 0 0;line-height:1.7">匯出：把紀錄存成檔案，可備份或換手機。<br>匯入：選取本 App 匯出的 .json 或 .csv，確認筆數後選擇方式。<br><b>合併</b>：保留現有資料，只新增沒有的打卡紀錄與尚未設定的月份。<br><b>覆蓋</b>：用檔案內容取代現有的打卡、加保時數與上期累計。</p></details></div>
- ${S.user?`<div class="c" style="text-align:left"><b>目前身分</b><div class="sm" style="margin:4px 0 10px">${esc(S.user.name)}（${esc(S.user.id)}）· 暱稱：${esc(S.user.nick||'')}<br>組別：${esc(S.user.group||'—')}${S.user.admin?' · <b style="color:var(--bad)">管理員</b>':''}<br>${syncLine()}</div><button class="gh" style="margin-bottom:10px" onclick="syncNow().then(()=>render())">立即同步</button><button class="gh" onclick="if(confirm_('登出後需要重新驗證學號，打卡紀錄不會被刪除。確定登出？')){S.user=null;save();render()}">登出</button></div>`:''}<button class="c" style="text-align:left;color:var(--bad);border-color:var(--bad)" onclick="if(confirm_('確定要清除所有資料嗎？雲端試算表裡你的加保時數與打卡紀錄也會一併清除，此動作無法復原。')){S={carry:0,declared:{},todos:[],active:null,logs:[],first:S.first,user:S.user,uid:S.uid,synced:S.synced,base:S.base,dirty:S.dirty,lastSync:S.lastSync};save();confirm=false;done=false;render()}">清除所有資料</button>
- <div class="foot">於 ${S.first.replace(/-/g,'.')} 首次使用<br>版本：alpha.0<hr>開發者：PoYu</div>`}
+ <div class="c" style="text-align:left;padding:12px 14px"><b style="font-size:15px">外觀主題</b><div class="row" style="gap:8px;margin-top:8px">${[['','跟隨系統'],['dark','深色'],['light','淺色']].map(x=>`<button class="sb ${curTheme()===x[0]?'ok2':''}" onclick="setTheme('${x[0]}')">${x[1]}</button>`).join('')}</div></div>
+ ${S.user?`<div class="c" style="text-align:left"><b>目前身分</b><div class="sm" style="margin:4px 0 10px">${esc(S.user.name)}（${esc(S.user.id)}）· 暱稱：${esc(S.user.nick||'')}<br>組別：${esc(S.user.group||'—')}${S.user.admin?' · <b style="color:var(--bad)">管理員</b>':''}<br>${syncLine()}</div><button class="gh" style="margin-bottom:10px" onclick="syncNow().then(()=>render())">立即同步</button><button class="gh" onclick="if(confirm_('登出後需要重新驗證學號，打卡紀錄不會被刪除。確定登出？')){S.user=null;save();render()}">登出</button></div>`:''}<button class="c" style="text-align:left;color:var(--bad);border-color:var(--bad)" onclick="resetLocal()">清除本機資料並重新從雲端同步<div class="sm" style="margin-top:4px;color:var(--mu)">只清除這支手機的資料，雲端紀錄不會被刪除；資料有問題時用這個。</div></button>
+ <div class="foot">於 ${S.first.replace(/-/g,'.')} 首次使用<br>版本：alpha.1<hr>開發者：PoYu</div>`}
 function dl(name,text,type){try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;document.body.appendChild(a);a.click();a.remove()}catch(e){alert('匯出失敗，請用手機瀏覽器或已安裝的 App 開啟')}}
 function exportJSON(){dl('上班時數備份_'+ld(Date.now())+'.json',JSON.stringify({app:'work-hours',v:1,exported:new Date().toISOString(),data:{carry:S.carry,declared:S.declared,logs:S.logs}},null,1),'application/json')}
 function exportCSV(){const rows=[['學號','日期','上班','下班','完成時數']];S.logs.slice().sort((a,b)=>a.date<b.date?-1:1).forEach(l=>rows.push([S.user?S.user.id:'',l.date,l.start||'',l.end||'',l.hours]));rows.push([],['月份','加保時數'],['上期累計',S.carry]);Object.keys(S.declared).sort().forEach(m=>rows.push([m,S.declared[m]]));
@@ -233,22 +237,22 @@ function syncLine(){if(!API)return'雲端同步：示範模式（未連接）';r
 addEventListener('online',()=>syncNow());
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncNow()});
 setInterval(()=>{if(!document.hidden){syncNow();loadAnn()}},60000);
-function go(t){tab=t;mode=null;anim=true;expo=false;imp=null;impMsg='';render()}
+function go(t){tab=t;mode=null;editId=null;edKeep=null;edDraft=null;anim=true;expo=false;imp=null;impMsg='';render()}
 function render(){
  if(typeof loginGate=='function'&&loginGate())return;
  document.querySelectorAll('nav button').forEach(b=>{b.className=b.dataset.t==tab?'on':'';b.onclick=()=>go(b.dataset.t)});
  {const T0={home:'Work Hours',input:'Manual Input',stats:'Statistics',settings:'Settings',dev:'In Development'}[tab];document.getElementById('h').innerHTML=esc(T0)+(tab=='home'&&S.user?'<span class="nick">'+esc(S.user.nick||S.user.name)+'</span>':'')}const v=document.getElementById('v');const pg=anim;v.className=(pg?'pg':'');anim=false;v.innerHTML={home,input,stats,settings,dev}[tab]();tick();pillMove();fx(pg)}
-function tick(){sync();const e=document.getElementById('clk');if(e){const d=new Date();e.innerHTML=`<div class="big">${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}</div><div class="sm">${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 週${'日一二三四五六'[d.getDay()]}</div>`}}
+function tick(){sync();{const ms=S.active?Date.now()-S.active.start:0,mm=Math.max(0,Math.floor(ms/6e4)),w=document.getElementById('wk'),w2=document.getElementById('wk2');if(S.active&&w)w.textContent='已 '+Math.floor(mm/60)+' 小時 '+(mm%60)+' 分 · 目前結算 '+f(calc(ms))+' hr';if(S.active&&w2)w2.textContent='本次結算：'+f(calc(ms))+' hr（已打卡 '+Math.floor(mm/60)+' 小時 '+(mm%60)+' 分）'}const e=document.getElementById('clk');if(e){const d=new Date();e.innerHTML=`<div class="big">${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}</div><div class="sm">${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 週${'日一二三四五六'[d.getDay()]}</div>`}}
 setInterval(tick,1000);
 function home(){
  let h='<div class="c" id="clk"></div>',a=S.active;
  if(!a){h+=done?`<div class="c pri" style="cursor:default">下班囉</div>`:`<button class="pri" onclick="inn()">上班</button>`;
   if(done){const td=ld(Date.now()),L=S.logs.filter(l=>l.date==td);
-   h+=`<div class="c"><div class="t">打卡時間紀錄</div>${L.map(l=>`<div class="li"><span>${FD(l.date)}${l.start?` <span class="sm">${l.start} → ${l.end}</span>`:''}</span><b>${f(l.hours)} hr</b></div>`).join('')||'<p class="sm">今天尚無紀錄</p>'}</div><button class="lb" onclick="done=false;render()">回到首頁</button>`}
+   h+=`<div class="c"><div class="t">打卡時間紀錄</div>${L.map(l=>`<div class="li"><span>${FD(l.date)}${l.start?` <span class="sm">${rng(l)}</span>`:''}</span><b>${f(l.hours)} hr</b></div>`).join('')||'<p class="sm">今天尚無紀錄</p>'}</div><p class="sm" style="text-align:center;margin:0">6 秒後自動回到首頁</p><button class="lb" onclick="done=false;render()">回到首頁</button>`}
   else{h+=annCard()+taskCard()}}
- else{h+=confirm?`<div class="c"><div class="t">下班？</div><div class="row"><button class="bad" onclick="out()">確定下班</button><button class="gh" onclick="confirm=false;render()">取消</button></div></div>`
-  :`<button class="pri" style="background:var(--s1);color:var(--ok);border-color:var(--ok)" onclick="confirm=true;render()">● 上班中 · ${hm(a.start)} 起</button>`;
-  h+=`<div class="c"><div class="t">待辦事項</div>${TASKS.length?taskRows()+'<hr class="sep">':''}${S.todos.map((t,i)=>`<div class="li"><span style="${t.d?'text-decoration:line-through;opacity:.6':''}" onclick="S.todos[${i}].d=!S.todos[${i}].d;save();render()">${t.d?'☑':'☐'} ${esc(t.t)}</span><button class="x gh" onclick="S.todos.splice(${i},1);save();render()">✕</button></div>`).join('')}
+ else{h+=confirm?`<div class="c"><div class="t">下班？</div><div class="sm" id="wk2" style="margin:-2px 0 10px"></div><div class="row"><button class="bad" onclick="out()">確定下班</button><button class="gh" onclick="confirm=false;render()">取消</button></div></div>`
+  :`<button class="pri" style="background:var(--s1);color:var(--ok);border-color:var(--ok)" onclick="confirm=true;render()">● 上班中 · ${hm(a.start)} 起<span id="wk" style="display:block;font-size:13px;font-weight:500;color:var(--mu);margin-top:3px"></span></button>`;
+  h+=(Date.now()-a.start>12*36e5?fgtCard():'')+`<div class="c"><div class="t">待辦事項</div>${TASKS.length?taskRows()+'<hr class="sep">':''}${S.todos.map((t,i)=>`<div class="li"><span style="${t.d?'text-decoration:line-through;opacity:.6':''}" onclick="S.todos[${i}].d=!S.todos[${i}].d;save();render()">${t.d?'☑':'☐'} ${esc(t.t)}</span><button class="x gh" onclick="S.todos.splice(${i},1);save();render()">✕</button></div>`).join('')}
    <div class="row" style="margin-top:8px"><input id="td" placeholder="新增待辦…" style="margin:0;flex:3"><button style="flex:1" onclick="addT()">＋</button></div></div>`+annCard()}
  return h}
 const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -276,37 +280,81 @@ const annCard=()=>`<div class="c ann" style="text-align:left"><div class="t" sty
 const taskRows=()=>TASKS.map(t=>`<div class="li"><span>🔸 ${esc(t)}</span></div>`).join('');
 const taskCard=()=>TASKS.length?`<div class="c ann" style="text-align:left"><div class="t" style="text-align:center">指派任務</div>${taskRows()}</div>`:'';
 // 待辦推送：依組別規則（星期＋時段，含開始、不含結束）決定現在該有哪些待辦
-const nowHits=()=>{const n=new Date(),m=n.getHours()*60+n.getMinutes(),d=n.getDay(),h=[];RULES.forEach((r,i)=>{if(r.d.includes(d)&&m>=r.s&&m<r.e)h.push(i)});return h};
+const EARLY=14;   // 打卡寬限（分鐘）：時段開始前 14 分鐘起就算該時段，例如 19:00-21:00 → 18:46～20:45 打卡都會收到
+const nowHits=(early)=>{const n=new Date(),m=n.getHours()*60+n.getMinutes()+(early?EARLY:0),d=n.getDay(),h=[];RULES.forEach((r,i)=>{if(r.d.includes(d)&&m>=r.s&&m<r.e)h.push(i)});return h};
 const ruleItems=h=>{const o=[];h.forEach(i=>RULES[i].items.forEach(t=>{if(!o.includes(t))o.push(t)}));return o};
-function inn(){const h=nowHits();S.todos=ruleItems(h).map(t=>({t,d:false}));S.lastP=h.join(',');S.active={start:Date.now()};confirm=false;done=false;save();render()}
+function inn(){if(!guard())return;const h=nowHits(true);S.todos=ruleItems(h).map(t=>({t,d:false}));S.lastP=nowHits().join(',');S.active={start:Date.now()};confirm=false;done=false;save();render()}
 function sync(){if(!S.active)return;const h=nowHits(),k=h.join(',');if(k===S.lastP)return;S.lastP=k;let add=0;ruleItems(h).forEach(t=>{if(!S.todos.some(x=>x.t===t)){S.todos.push({t,d:false});add++}});save();if(add&&tab=='home'&&!busyEl())render()}
+let _g=0;const guard=()=>{if(_g)return false;_g=1;setTimeout(()=>_g=0,900);return true};
+let doneT=0,editId=null,edKeep=null,edDraft=null;
+function curM(){const d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)}
+const curTheme=()=>{try{return localStorage.getItem('wh2-theme')||''}catch(e){return''}};
+function applyTheme(){const t=curTheme(),h=document.documentElement;if(!h||!h.removeAttribute)return;h.removeAttribute('data-theme');if(t)h.setAttribute('data-theme',t)}
+function setTheme(t){try{t?localStorage.setItem('wh2-theme',t):localStorage.removeItem('wh2-theme')}catch(e){}applyTheme();render()}
+applyTheme();
+const rng=l=>l.start+'–'+(l.end&&l.end<l.start?'次日 ':'')+l.end;
+const hOpts=(max,sel)=>'<option value="">時</option>'+Array.from({length:max+1},(_,i)=>`<option value="${i}"${sel===i?' selected':''}>${pad(i)}</option>`).join('');
+const mOpts=sel=>'<option value="">分</option>'+[0,30].map(m=>`<option value="${m}"${sel===m?' selected':''}>${pad(m)}</option>`).join('');
+const pr=t=>{const m=/^(\d{1,2}):(\d{2})$/.exec(t||'');return m&&(+m[2]==0||+m[2]==30)?{h:+m[1],m:+m[2]}:null};
+function timeCalc(){const g=i=>document.getElementById(i).value,a=g('tsh'),b=g('tsm'),c=g('teh'),d=g('tem');
+ if(a===''||b===''||c===''||(d===''&&c!='24'))return;let df=(+c*60+(c=='24'?0:+d))-(+a*60+ +b);if(df<=0)df+=1440;document.getElementById('lh').value=f(calc(df*6e4))}
+const fgtCard=()=>`<div class="c" style="text-align:left;border-color:var(--dec)"><div class="t" style="color:var(--dec);text-align:left">⚠️ 已連續打卡超過 12 小時，是否忘記下班？</div><label>實際下班時間</label><div class="row"><select id="fh">${hOpts(24)}</select><select id="fm">${mOpts()}</select></div><button class="pri" style="font-size:16px;padding:13px" onclick="fixOut()">補登下班時間</button><p class="sm" style="margin:8px 0 0">若確實一直在上班，直接按上方「上班中」按鈕下班即可。</p></div>`;
+function fixOut(){const h=document.getElementById('fh').value,m=document.getElementById('fm').value;if(h===''||(m===''&&h!='24'))return alert('請選擇實際下班的「時」與「分」');
+ const s=new Date(S.active.start);let e=new Date(s.getFullYear(),s.getMonth(),s.getDate(),+h,h=='24'?0:+m,0,0);if(e.getTime()<=S.active.start)e=new Date(e.getTime()+864e5);
+ if(e.getTime()>Date.now())return alert('下班時間不能晚於現在');if(!confirm_('補登下班時間 '+hm(e.getTime())+'，確定嗎？'))return;outAt(e.getTime())}
 const calc=ms=>{const m=Math.max(0,Math.round(ms/6e4)),r=m%60;return Math.floor(m/60)+(r<=15?0:r<=45?.5:1)};
-function out(){const e=Date.now(),s=S.active.start;
- S.logs.push({id:'l'+e,date:ld(s),start:hm(s),end:hm(e),hours:calc(e-s)});S.active=null;confirm=false;done=true;save();render()}
+function outAt(e){if(!guard()||!S.active)return;const s=S.active.start;if(e<=s)e=s+60000;
+ S.logs.push({id:'l'+Date.now(),date:ld(s),start:hm(s),end:hm(e),hours:calc(e-s)});S.active=null;confirm=false;done=true;save();render();
+ clearTimeout(doneT);doneT=setTimeout(()=>{if(done&&!S.active){done=false;if(tab=='home')render()}},6000)}
+function out(){outAt(Date.now())}
+function resetLocal(){
+ if(!API||!S.user){if(!confirm_('目前未連接雲端，清除後這支手機上的資料會消失且無法復原。確定清除？'))return;
+  S={carry:0,declared:{},todos:[],active:null,logs:[],first:S.first,user:S.user,uid:S.uid};persist();confirm=false;done=false;render();return}
+ if(!confirm_((S.dirty?'⚠️ 有尚未上傳到雲端的變動，清除後會遺失。\n':'')+'這會清除這支手機上的資料，並重新從雲端下載。雲端的紀錄不會被刪除。確定嗎？'))return;
+ S={carry:0,declared:{},todos:[],active:null,logs:[],first:S.first,user:S.user,uid:S.uid,synced:false,base:null,dirty:false};persist();confirm=false;done=false;render();syncNow().then(()=>render())}
 function numOnly(el){const v=el.value.replace(/[^0-9.]/g,''),i=v.indexOf('.');el.value=i<0?v:v.slice(0,i+1)+v.slice(i+1).replace(/\./g,'')}
 function input(){
- const bk=`<div class="row"><button class="gh" onclick="mode=null;render()">返回</button>`;
+ const bk=`<div class="row"><button class="gh" onclick="mode=null;editId=null;edKeep=null;edDraft=null;render()">返回</button>`;
  if(!mode)return `<div class="c"><div class="t">新增or修改哪一項？</div><div class="opt"><button class="lb" onclick="mode='d';render()">加保時數</button><button class="lb" onclick="mode='l';render()">打卡時間</button></div></div>`+`<details class="c" style="text-align:left;margin-top:18px"><summary class="sm" style="cursor:pointer">其他設定：上期累計</summary><div style="margin-top:12px"><label>上期累計加保時數 (hr)</label><input id="cy" type="number" inputmode="decimal" step="0.5" value="${S.carry}"><button class="gh" onclick="svC()">儲存上期累計</button></div></details>`;
  if(mode=='d')return `<div class="c" style="text-align:left"><div class="row"><div><label>年</label><input id="iy" type="text" inputmode="numeric" maxlength="4" value="${im.slice(0,4)}" style="text-align:center" oninput="this.value=this.value.replace(/\\D/g,'')" onchange="setIM()"></div><div><label>月</label><select id="imo" onchange="setIM()">${[...Array(12)].map((_,i)=>`<option value="${i+1}" ${i+1==+im.slice(5)?'selected':''}>${i+1}月</option>`).join('')}</select></div></div><label>${ML(im)}加保時數 (hr)</label><input id="dv" type="text" inputmode="decimal" oninput="numOnly(this)" value="${S.declared[im]??''}">${bk}<button class="pri" style="font-size:16px;padding:13px" onclick="svD()">儲存</button></div></div>`;
- return `<div class="c" style="text-align:left"><label>日期</label><input id="ld" type="date" value="${ld(Date.now())}"><label>時數 (hr)</label><input id="lh" type="text" inputmode="decimal" oninput="numOnly(this)" placeholder="例如 3.5">${bk}<button class="pri" style="font-size:16px;padding:13px" onclick="svL()">新增</button></div></div>`}
+ const d=edDraft||{},S0=d.s||{},E0=d.e||{};
+ return `<div class="c" style="text-align:left"><label>日期</label><input id="ld" type="date" value="${d.date||ld(Date.now())}">
+  <label>上班時間（選填）</label><div class="row"><select id="tsh" onchange="timeCalc()">${hOpts(23,S0.h)}</select><select id="tsm" onchange="timeCalc()">${mOpts(S0.m)}</select></div>
+  <label>下班時間（選填，24 時＝午夜）</label><div class="row"><select id="teh" onchange="timeCalc()">${hOpts(24,E0.h)}</select><select id="tem" onchange="timeCalc()">${mOpts(E0.m)}</select></div>
+  <label>時數 (hr)</label><input id="lh" type="text" inputmode="decimal" oninput="numOnly(this)" placeholder="選了上下班時間會自動計算，也可手動修改" value="${d.hours!==undefined?d.hours:''}">
+  ${editId&&edKeep&&edKeep.start&&!d.s?`<p class="sm" style="margin:0 0 10px">原本的打卡時間 ${rng(edKeep)} 會保留；要更改請在上面重新選擇。</p>`:''}
+  ${bk}<button class="pri" style="font-size:16px;padding:13px" onclick="svL()">${editId?'儲存修改':'新增'}</button></div></div>`}
 function svC(){const n=parseFloat(document.getElementById('cy').value);S.carry=isNaN(n)?0:n;save();go('stats')}
 function setIM(){const y=parseInt(document.getElementById('iy').value),m=+document.getElementById('imo').value;if(!(y>=1990&&y<=2100)){alert('請輸入正確的年份');return render()}im=y+'-'+pad(m);render()}
-function svD(){const d=parseFloat(document.getElementById('dv').value);if(!isNaN(d))S.declared[im]=d;save();mode=null;go('stats')}
-function svL(){const $=i=>document.getElementById(i).value;const d=$('ld'),h=parseFloat($('lh'));
- if(!d||!(h>0))return alert('請輸入日期與時數');if(d<semMons()[0]+'-01')return alert('只保留本學期的打卡紀錄，這個日期早於 '+ML(semMons()[0])+'，無法新增');S.logs.push({id:'l'+Date.now(),date:d,hours:h});save();sm=d.slice(0,7);im=sm;mode=null;go('stats')}
+function svD(){if(!guard())return;const d=parseFloat(document.getElementById('dv').value);if(!isNaN(d))S.declared[im]=d;save();mode=null;go('stats')}
+function svL(){if(!guard())return;const $=i=>document.getElementById(i).value;const d=$('ld');let h=parseFloat($('lh'));
+ const sH=$('tsh'),sM=$('tsm'),eH=$('teh'),eM=$('tem'),any=[sH,sM,eH,eM].some(x=>x!==''),all=sH!==''&&sM!==''&&eH!==''&&(eM!==''||eH=='24');
+ if(any&&!all)return alert('上班與下班的「時」和「分」請都選好，或全部留空');
+ let st,en;
+ if(all){st=pad(+sH)+':'+pad(+sM);en=(eH=='24'?'00':pad(+eH))+':'+(eH=='24'?'00':pad(+eM));
+  if(!(h>0)){let df=(+eH*60+(eH=='24'?0:+eM))-(+sH*60+ +sM);if(df<=0)df+=1440;h=calc(df*6e4)}}
+ else if(editId&&edKeep&&edKeep.start){st=edKeep.start;en=edKeep.end}
+ if(!d||!(h>0))return alert('請輸入日期與時數，或選擇上下班時間');
+ if(d<semMons()[0]+'-01')return alert('只保留本學期的打卡紀錄，這個日期早於 '+ML(semMons()[0])+'，無法新增');
+ if(editId)S.logs=S.logs.filter(l=>String(l.id)!==String(editId));
+ const o={id:'l'+Date.now(),date:d,hours:h};if(st){o.start=st;o.end=en}
+ S.logs.push(o);editId=null;edKeep=null;edDraft=null;save();sm=d.slice(0,7);im=sm;mode=null;go('stats')}
 function stats(){const t=tot(),diff=t.a-t.d;
  const L=S.logs.filter(l=>l.date.startsWith(sm)).sort((a,b)=>a.date<b.date?-1:1);
- return `<div class="c"><div class="row"><div><div class="t">總加保時數</div><div class="big dec" style="font-size:26px">${f(t.d)}</div></div><div><div class="t">已完成時數</div><div class="big ok" style="font-size:26px">${f(t.a)}</div></div><div><div class="t">本月已上班</div><div class="big ac" style="font-size:26px">${f(act(nowM))}</div></div></div>
+ return `<div class="c"><div class="row"><div><div class="t">總加保時數</div><div class="big dec" style="font-size:26px">${f(t.d)}</div></div><div><div class="t">已完成時數</div><div class="big ok" style="font-size:26px">${f(t.a)}</div></div><div><div class="t">本月已上班</div><div class="big ac" style="font-size:26px">${f(act(curM()))}</div></div></div>
  <div class="sm" style="margin-top:10px">${diff>=0?'已超過加保 '+f(diff)+' hr':'還需補 '+f(-diff)+' hr'}</div></div>
  <div class="c"><div class="t">明細表</div><table><tr><th></th><th>加保時數</th><th>完成時數</th></tr>
  <tr><td style="font-size:10pt">上期累計</td><td>${f(S.carry)}</td><td></td></tr>
- ${win6().map(m=>`<tr><td>${ML(m)}</td><td class="dec">${S.declared[m]??''}</td><td class="ok">${S.logs.some(l=>l.date.startsWith(m))?f(act(m)):''}</td></tr>`).join('')}
+ ${mons().map(m=>`<tr><td>${ML(m)}</td><td class="dec">${S.declared[m]??''}</td><td class="ok">${S.logs.some(l=>l.date.startsWith(m))?f(act(m)):''}</td></tr>`).join('')}
  <tr><th>加總</th><th class="dec">${f(t.d)}</th><th class="ok">${f(t.a)}</th></tr></table></div>
  <div class="c"><div class="t">上班時數</div><select id="sm" onchange="sm=this.value;render()" style="margin-bottom:6px">${opts(sm)}</select>
- ${L.map(l=>`<div class="li"><span>${FD(l.date)}${l.start?` <span class="sm">${l.start}–${l.end}</span>`:''}</span><span><b>${f(l.hours)} hr</b><button class="x gh" onclick="del('${l.id}')">✕</button></span></div>`).join('')||'<p class="sm">本月尚無紀錄</p>'}
+ ${L.map(l=>`<div class="li"><span>${FD(l.date)}${l.start?` <span class="sm">${rng(l)}</span>`:''}</span><span><b>${f(l.hours)} hr</b><button class="x gh" data-act="ed" data-id="${esc(String(l.id))}">✎</button><button class="x gh" data-act="del" data-id="${esc(String(l.id))}">✕</button></span></div>`).join('')||'<p class="sm">本月尚無紀錄</p>'}
  <div class="li" style="border:0"><b>小計</b><b class="ok">${f(act(sm))} hr</b></div></div>`}
 const confirm_=m=>window.confirm(m);
-function del(id){S.logs=S.logs.filter(l=>l.id!=id);save();render()}
+function del(id){S.logs=S.logs.filter(l=>String(l.id)!==String(id));save();render()}
+function delLog(id){if(confirm_('確定要刪除這筆紀錄嗎？'))del(id)}
+function edLog(id){const l=S.logs.find(x=>String(x.id)===String(id));if(!l)return;editId=l.id;edKeep=l.start?{start:l.start,end:l.end}:null;edDraft={date:l.date,hours:l.hours,s:pr(l.start),e:pr(l.end)};tab='input';mode='l';anim=true;render()}
+document.getElementById('v')?.addEventListener?.('click',e=>{const b=e.target&&e.target.closest&&e.target.closest('[data-act]');if(!b)return;const id=b.getAttribute('data-id');if(b.getAttribute('data-act')=='del')delLog(id);else if(b.getAttribute('data-act')=='ed')edLog(id)});
 (function(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
 const c=document.createElement('canvas');c.setAttribute('aria-hidden','true');c.style.cssText='position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:0';document.body.prepend(c);
 const x=c.getContext('2d');let W,H,F=[],col='255,255,255',n=0,last=0;

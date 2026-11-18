@@ -1,5 +1,5 @@
 // 更新網頁內容後，請把版本號 +1，使用者就會取得新版
-const VER='wh2-v1';
+const VER='wh2-v3';
 const FILES=['./','index.html','config.js','manifest.json','icon-180.png','icon-192.png','icon-512.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(VER).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==VER).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
